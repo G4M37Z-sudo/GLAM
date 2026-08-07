@@ -34,15 +34,21 @@ export async function signUpWithPassword(formData: FormData) {
   }
 
   const supabase = await createClient();
-  const siteUrl =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
-    "http://localhost:3000";
+  const rawSiteUrl =
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  // Strip trailing slash AND any path component — Supabase rejects
+  // \`emailRedirectTo\` URLs whose host differs from the configured Site URL.
+  const siteUrl = rawSiteUrl
+    .replace(/\/$/, "")
+    .replace(/\/.*$/, "");
+
+  const callbackUrl = `${siteUrl}/auth/callback?next=${encodeURIComponent(next)}`;
 
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      emailRedirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent(next)}`,
+      emailRedirectTo: callbackUrl,
       data: {
         display_name: displayName,
       },
@@ -51,6 +57,7 @@ export async function signUpWithPassword(formData: FormData) {
 
   if (error) {
     console.error("signUpWithPassword failed:", error);
+    console.error("signUpWithPassword callbackUrl was:", callbackUrl);
     if (error.message.toLowerCase().includes("already registered")) {
       return { error: "An account with this email already exists. Try signing in." };
     }
