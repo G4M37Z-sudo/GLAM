@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ShoppingBag, User, Search, Menu } from "lucide-react";
 import { useCartStore } from "@/lib/cart-store";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/Logo";
 import { useEffect, useState } from "react";
 
 const NAV = [
@@ -55,12 +56,8 @@ export function Header() {
           </button>
 
           {/* Logo */}
-          <Link
-            href="/"
-            className="shrink-0 font-sans text-2xl font-black tracking-tight text-accent sm:text-3xl"
-            aria-label="MARKET — home"
-          >
-            MARKET
+          <Link href="/" className="shrink-0">
+            <Logo height={32} ariaLabel="GLAM — home" />
           </Link>
 
           {/* Search */}

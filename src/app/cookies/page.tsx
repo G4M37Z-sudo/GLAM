@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Cookie Policy",
   description:
-    "What cookies and similar technologies MARKET uses, why we use them, and how to control them.",
+    "What cookies and similar technologies GLAM uses, why we use them, and how to control them.",
 };
 
 export default function CookiesPage() {
@@ -25,8 +25,8 @@ export default function CookiesPage() {
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
           This Cookie Policy explains what cookies and similar technologies
-          ("cookies") MARKET ("we," "us," or "our") uses when you visit
-          market.example (the "Service"), why we use them, and how you can
+          ("cookies") GLAM ("we," "us," or "our") uses when you visit
+          glam.example (the "Service"), why we use them, and how you can
           control them. For details about how we handle personal information
           collected through cookies, see our{" "}
           <a
@@ -156,10 +156,10 @@ export default function CookiesPage() {
         <p>
           Questions about our use of cookies? Email{" "}
           <a
-            href="mailto:privacy@market.example"
+            href="mailto:privacy@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            privacy@market.example
+            privacy@glam.example
           </a>
           .
         </p>

@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Careers",
   description:
-    "Join the MARKET team. We're a small, fast-moving group building the storefront we always wanted to shop at.",
+    "Join the GLAM team. We're a small, fast-moving group building the storefront we always wanted to shop at.",
 };
 
 export default function CareersPage() {
@@ -23,7 +23,7 @@ export default function CareersPage() {
 
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
-          MARKET is built by a team that treats commerce the way shoppers do —
+          GLAM is built by a team that treats commerce the way shoppers do —
           with healthy skepticism and a low tolerance for friction. We're
           looking for people who want to ship real improvements to a real
           storefront used by real customers every day.
@@ -89,10 +89,10 @@ export default function CareersPage() {
         <p>
           Send a short note and your resume to{" "}
           <a
-            href="mailto:careers@market.example"
+            href="mailto:careers@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            careers@market.example
+            careers@glam.example
           </a>
           . Tell us which role you're applying for, what drew you to it, and
           one piece of work you're proud of (a link is fine). General-interest

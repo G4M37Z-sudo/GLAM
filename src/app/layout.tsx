@@ -15,8 +15,8 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "MARKET — Discover. Connect. Trade.",
-    template: "%s · MARKET",
+    default: "GLAM — Discover. Connect. Trade.",
+    template: "%s · GLAM",
   },
   description:
     "Millions of styles, fresh drops daily, and unbeatable wholesale prices. From the runway to your wardrobe — without the markup.",

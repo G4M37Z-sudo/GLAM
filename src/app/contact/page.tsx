@@ -26,10 +26,10 @@ export const metadata = {
 
 // --- Static contact info (placeholder; swap for real values when known) ---
 const CONTACT = {
-  email: "hello@market.example",
+  email: "hello@glam.example",
   phone: "+1 (555) 0100",
   addressLines: [
-    "MARKET Wholesale Co.",
+    "GLAM Wholesale Co.",
     "123 Market Street",
     "San Francisco, CA 94103",
   ],

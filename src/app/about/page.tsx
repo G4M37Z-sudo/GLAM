@@ -1,7 +1,7 @@
 // ============================================================================
 // src/app/about/page.tsx
 //
-// About MARKET — company story, mission, and values.
+// About GLAM — company story, mission, and values.
 // Static Server Component; no data fetching.
 // ============================================================================
 
@@ -10,14 +10,14 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "About",
   description:
-    "The story behind MARKET — discover our mission, what we stand for, and how we're reshaping everyday commerce.",
+    "The story behind GLAM — discover our mission, what we stand for, and how we're reshaping everyday commerce.",
 };
 
 export default function AboutPage() {
   return (
     <main className="container-x py-10 sm:py-14">
       <h1 className="text-2xl font-bold text-fg sm:text-3xl">
-        About MARKET
+        About GLAM
       </h1>
       <p className="mt-2 text-sm text-text-muted">
         Our story, mission, and the values that guide everything we ship.
@@ -25,7 +25,7 @@ export default function AboutPage() {
 
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
-          MARKET started with a simple observation: the gap between what a
+          GLAM started with a simple observation: the gap between what a
           product costs to make and what most people end up paying for it has
           grown out of control. We set out to build a storefront that closes
           that gap — connecting independent makers, brand-name wholesalers,

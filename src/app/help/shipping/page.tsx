@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Shipping & Delivery",
   description:
-    "Shipping options, delivery times, costs, and tracking for MARKET orders.",
+    "Shipping options, delivery times, costs, and tracking for GLAM orders.",
 };
 
 export default function ShippingPage() {

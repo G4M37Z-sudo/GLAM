@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Press",
   description:
-    "Press and media resources for MARKET — logos, brand guidelines, executive bios, and recent coverage.",
+    "Press and media resources for GLAM — logos, brand guidelines, executive bios, and recent coverage.",
 };
 
 export default function PressPage() {
@@ -25,7 +25,7 @@ export default function PressPage() {
 
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
-          Welcome — thanks for covering MARKET. This page collects the assets
+          Welcome — thanks for covering GLAM. This page collects the assets
           and information journalists, creators, and analysts need most often.
           If you can't find what you're looking for, drop our communications
           team a note and we'll get back to you within one business day.
@@ -34,10 +34,10 @@ export default function PressPage() {
           For product reviews, brand partnerships, or executive interviews,
           please email{" "}
           <a
-            href="mailto:press@market.example"
+            href="mailto:press@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            press@market.example
+            press@glam.example
           </a>
           .
         </p>
@@ -87,10 +87,10 @@ export default function PressPage() {
         <p className="text-text-muted">
           For the latest numbers, please request a current fact sheet via{" "}
           <a
-            href="mailto:press@market.example"
+            href="mailto:press@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            press@market.example
+            press@glam.example
           </a>
           .
         </p>

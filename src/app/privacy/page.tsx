@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Privacy Policy",
   description:
-    "How MARKET collects, uses, and protects your personal information.",
+    "How GLAM collects, uses, and protects your personal information.",
 };
 
 export default function PrivacyPage() {
@@ -24,15 +24,15 @@ export default function PrivacyPage() {
 
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
-          This Privacy Policy describes the information MARKET ("we," "us," or
+          This Privacy Policy describes the information GLAM ("we," "us," or
           "our") collects about you, how we use it, and the rights you have
-          over it. By using market.example (the "Service") you agree to the
+          over it. By using glam.example (the "Service") you agree to the
           practices described here. If anything below is unclear, email us at{" "}
           <a
-            href="mailto:privacy@market.example"
+            href="mailto:privacy@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            privacy@market.example
+            privacy@glam.example
           </a>
           .
         </p>
@@ -136,10 +136,10 @@ export default function PrivacyPage() {
         <p>
           To exercise any of these rights, email{" "}
           <a
-            href="mailto:privacy@market.example"
+            href="mailto:privacy@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            privacy@market.example
+            privacy@glam.example
           </a>
           . We'll respond within 30 days.
         </p>

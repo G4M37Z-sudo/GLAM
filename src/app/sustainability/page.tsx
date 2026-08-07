@@ -111,10 +111,10 @@ export default function SustainabilityPage() {
         <p>
           Questions or ideas? Reach out at{" "}
           <a
-            href="mailto:sustainability@market.example"
+            href="mailto:sustainability@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            sustainability@market.example
+            sustainability@glam.example
           </a>
           .
         </p>

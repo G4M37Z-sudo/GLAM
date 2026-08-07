@@ -1,15 +1,18 @@
 import Link from "next/link";
 
 const HELP = [
-  { label: "Customer Service", href: "/contact" },
+  { label: "Help Center", href: "/help" },
   { label: "Shipping & Delivery", href: "/help/shipping" },
   { label: "Returns & Refunds", href: "/help/returns" },
   { label: "Size Guide", href: "/help/size-guide" },
+  { label: "Payments", href: "/help/payments" },
+  { label: "Orders", href: "/help/orders" },
+  { label: "Account", href: "/help/account" },
   { label: "Contact Us", href: "/contact" },
 ];
 
 const ABOUT = [
-  { label: "About MARKET", href: "/about" },
+  { label: "About GLAM", href: "/about" },
   { label: "Careers", href: "/careers" },
   { label: "Press", href: "/press" },
   { label: "Sustainability", href: "/sustainability" },
@@ -125,7 +128,7 @@ export function Footer() {
 
       <div className="border-t border-[#2a2a2a]">
         <div className="container-x flex flex-col items-start justify-between gap-3 py-5 text-xs text-[#999] sm:flex-row sm:items-center">
-          <p>© {year} MARKET. All rights reserved.</p>
+          <p>© {year} GLAM. All rights reserved.</p>
           <div className="flex gap-4">
             <Link href="/privacy" className="hover:text-accent">
               Privacy

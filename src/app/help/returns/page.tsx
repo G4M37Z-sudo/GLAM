@@ -87,10 +87,10 @@ export default function ReturnsPage() {
         <p>
           If you checked out as a guest, email{" "}
           <a
-            href="mailto:returns@market.example"
+            href="mailto:returns@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            returns@market.example
+            returns@glam.example
           </a>{" "}
           with your order number and we'll get you set up.
         </p>
@@ -141,10 +141,10 @@ export default function ReturnsPage() {
         <p>
           If your order arrives damaged or defective, please email a photo to{" "}
           <a
-            href="mailto:returns@market.example"
+            href="mailto:returns@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            returns@market.example
+            returns@glam.example
           </a>{" "}
           within 14 days of delivery. We'll send a free return label and ship
           a replacement as soon as possible, or issue a full refund if the
@@ -159,10 +159,10 @@ export default function ReturnsPage() {
           quote or master agreement. Reach out to your account manager or
           email{" "}
           <a
-            href="mailto:wholesale@market.example"
+            href="mailto:wholesale@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            wholesale@market.example
+            wholesale@glam.example
           </a>{" "}
           to start a wholesale return.
         </p>

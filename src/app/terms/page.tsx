@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Terms of Service",
   description:
-    "The terms governing your use of the MARKET storefront — accounts, orders, payments, and liability.",
+    "The terms governing your use of the GLAM storefront — accounts, orders, payments, and liability.",
 };
 
 export default function TermsPage() {
@@ -19,14 +19,14 @@ export default function TermsPage() {
         Terms of Service
       </h1>
       <p className="mt-2 text-sm text-text-muted">
-        The terms governing your use of the MARKET storefront.
+        The terms governing your use of the GLAM storefront.
       </p>
 
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
           These Terms of Service ("Terms") govern your access to and use of
-          the website, products, and services made available by MARKET
-          Wholesale Co. ("MARKET," "we," or "us") at market.example (the
+          the website, products, and services made available by GLAM
+          Wholesale Co. ("GLAM," "we," or "us") at glam.example (the
           "Service"). By creating an account, placing an order, or otherwise
           using the Service, you agree to these Terms.
         </p>
@@ -127,7 +127,7 @@ export default function TermsPage() {
       <div className="space-y-4 text-base text-fg leading-relaxed">
         <p>
           The Service, including its design, branding, copy, photography, and
-          source code, is owned by MARKET or our licensors. You may view and
+          source code, is owned by GLAM or our licensors. You may view and
           use it for personal, non-commercial purposes. You may not copy,
           reproduce, distribute, or create derivative works without our prior
           written permission.
@@ -147,7 +147,7 @@ export default function TermsPage() {
         <p>
           To the fullest extent permitted by law, our total liability arising
           out of or related to your use of the Service will not exceed the
-          amounts you paid to MARKET in the twelve months preceding the
+          amounts you paid to GLAM in the twelve months preceding the
           claim. We're not liable for indirect, incidental, special,
           consequential, or punitive damages.
         </p>
@@ -185,10 +185,10 @@ export default function TermsPage() {
         <p>
           Questions about these Terms? Email{" "}
           <a
-            href="mailto:legal@market.example"
+            href="mailto:legal@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            legal@market.example
+            legal@glam.example
           </a>
           .
         </p>

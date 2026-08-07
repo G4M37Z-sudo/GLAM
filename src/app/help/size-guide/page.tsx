@@ -198,10 +198,10 @@ export default function SizeGuidePage() {
           Send your measurements and a link to the product you're considering
           to{" "}
           <a
-            href="mailto:help@market.example"
+            href="mailto:help@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            help@market.example
+            help@glam.example
           </a>{" "}
           and a member of our team will recommend the best size for you.
         </p>

@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 export const metadata = {
   title: "Affiliates",
   description:
-    "Earn commission by recommending MARKET. Program overview, commission tiers, and how to apply.",
+    "Earn commission by recommending GLAM. Program overview, commission tiers, and how to apply.",
 };
 
 export default function AffiliatesPage() {
@@ -20,12 +20,12 @@ export default function AffiliatesPage() {
         Affiliates program
       </h1>
       <p className="mt-2 text-sm text-text-muted">
-        Recommend MARKET, earn commission. Here's how the program works.
+        Recommend GLAM, earn commission. Here's how the program works.
       </p>
 
       <div className="mt-6 space-y-4 text-base text-fg leading-relaxed">
         <p>
-          The MARKET affiliate program lets creators, publishers, and
+          The GLAM affiliate program lets creators, publishers, and
           reviewers earn a commission on sales they drive to our storefront.
           It's free to join, runs on a 30-day cookie window, and pays out on
           every qualifying order — including repeat purchases during the
@@ -118,13 +118,13 @@ export default function AffiliatesPage() {
         <p>
           Email{" "}
           <a
-            href="mailto:affiliates@market.example"
+            href="mailto:affiliates@glam.example"
             className="text-accent underline-offset-2 hover:underline"
           >
-            affiliates@market.example
+            affiliates@glam.example
           </a>{" "}
           with your name, your channel(s), and a short note on how you'd
-          promote MARKET. We'll reply within two business days with next
+          promote GLAM. We'll reply within two business days with next
           steps.
         </p>
         <p>
