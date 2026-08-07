@@ -116,9 +116,9 @@ The repo at [`github.com/G4M37Z-sudo/GLAM`](https://github.com/G4M37Z-sudo/GLAM)
    | `STRIPE_SECRET_KEY` | from §2 (test key for now) |
    | `STRIPE_WEBHOOK_SECRET` | from §2 step 6 (local `whsec_…`) — you'll update it after the first deploy |
    | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | from §2 |
-   | `NEXT_PUBLIC_SITE_URL` | `https://glam-dipp91wzs-derilugameplays-1544s-projects.vercel.app` (this project's Vercel URL) |
+   | `NEXT_PUBLIC_SITE_URL` | `https://glam-ten-pearl.vercel.app` (this project's Vercel URL) |
 6. Click **Deploy**. The first build runs `npm run build` on Vercel's servers (~1–2 min).
-7. When the deploy finishes, you'll get a URL like `https://glam-dipp91wzs-derilugameplays-1544s-projects.vercel.app`. (Deployment Protection may require you to sign in to Vercel first to view it.)
+7. When the deploy finishes, you'll get a URL like `https://glam-ten-pearl.vercel.app`. (Deployment Protection may require you to sign in to Vercel first to view it.)
 
 ---
 
@@ -130,10 +130,10 @@ Now you know the real Vercel URL — go wire it back into the system.
 2. `NEXT_PUBLIC_SITE_URL` should already be set to your Vercel URL from §5. If you need to change it, update it here.
 3. **Trigger a redeploy** — Deployments → latest → **⋯ → Redeploy** (the env var change requires a rebuild).
 4. In **Supabase → Authentication → URL Configuration**:
-   - **Site URL:** `https://glam-dipp91wzs-derilugameplays-1544s-projects.vercel.app`
-   - **Redirect URLs:** add `https://glam-dipp91wzs-derilugameplays-1544s-projects.vercel.app/auth/callback` (and `http://localhost:3000/auth/callback` if you want local dev too)
+   - **Site URL:** `https://glam-ten-pearl.vercel.app`
+   - **Redirect URLs:** add `https://glam-ten-pearl.vercel.app/auth/callback` (and `http://localhost:3000/auth/callback` if you want local dev too)
 5. In the Stripe dashboard, **Developers → Webhooks → Add endpoint**:
-   - **Endpoint URL:** `https://glam-dipp91wzs-derilugameplays-1544s-projects.vercel.app/api/stripe-webhook`
+   - **Endpoint URL:** `https://glam-ten-pearl.vercel.app/api/stripe-webhook`
    - **Events:** `checkout.session.completed`
    - Copy the new **Signing secret** (`whsec_...`).
 6. Back in Vercel, update `STRIPE_WEBHOOK_SECRET` to that new production value, then **redeploy again**.
