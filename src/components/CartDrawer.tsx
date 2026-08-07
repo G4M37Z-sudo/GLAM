@@ -104,7 +104,7 @@ export function CartDrawer() {
                   />
                   <div className="flex min-w-0 flex-1 flex-col gap-1">
                     <Link
-                      href={`/products/${item.slug}`}
+                      href={`/product/${item.slug}`}
                       onClick={closeCart}
                       className="line-clamp-2 text-sm font-medium text-fg hover:text-accent"
                     >
@@ -166,9 +166,11 @@ export function CartDrawer() {
             <p className="mb-3 text-xs text-text-muted">
               Shipping and taxes calculated at checkout.
             </p>
-            <Button variant="primary" size="lg" fullWidth>
-              Checkout
-            </Button>
+            <Link href="/cart" className="block">
+              <Button variant="primary" size="lg" fullWidth>
+                Checkout
+              </Button>
+            </Link>
             <button
               type="button"
               onClick={closeCart}

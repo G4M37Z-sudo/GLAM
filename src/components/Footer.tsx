@@ -1,37 +1,34 @@
 import Link from "next/link";
 
+const HELP = [
+  { label: "Customer Service", href: "/contact" },
+  { label: "Shipping & Delivery", href: "/help/shipping" },
+  { label: "Returns & Refunds", href: "/help/returns" },
+  { label: "Size Guide", href: "/help/size-guide" },
+  { label: "Contact Us", href: "/contact" },
+];
+
+const ABOUT = [
+  { label: "About MARKET", href: "/about" },
+  { label: "Careers", href: "/careers" },
+  { label: "Press", href: "/press" },
+  { label: "Sustainability", href: "/sustainability" },
+  { label: "Affiliates", href: "/affiliates" },
+];
+
+const CATEGORIES = [
+  { label: "Electronics", href: "/category/electronics" },
+  { label: "Home & Garden", href: "/category/home-garden" },
+  { label: "Fashion", href: "/category/fashion-accessories" },
+  { label: "Beauty", href: "/category/beauty-personal-care" },
+  { label: "Sports", href: "/category/sports-outdoors" },
+  { label: "Gadgets", href: "/category/gadgets" },
+];
+
 const COLUMNS = [
-  {
-    title: "Help",
-    links: [
-      { label: "Customer Service", href: "/help" },
-      { label: "Shipping & Delivery", href: "/help/shipping" },
-      { label: "Returns & Refunds", href: "/help/returns" },
-      { label: "Size Guide", href: "/help/size-guide" },
-      { label: "Contact Us", href: "/help/contact" },
-    ],
-  },
-  {
-    title: "About",
-    links: [
-      { label: "About MARKET", href: "/about" },
-      { label: "Careers", href: "/careers" },
-      { label: "Press", href: "/press" },
-      { label: "Sustainability", href: "/sustainability" },
-      { label: "Affiliates", href: "/affiliates" },
-    ],
-  },
-  {
-    title: "Categories",
-    links: [
-      { label: "Women", href: "/categories/women" },
-      { label: "Men", href: "/categories/men" },
-      { label: "Kids", href: "/categories/kids" },
-      { label: "Beauty", href: "/categories/beauty" },
-      { label: "Home", href: "/categories/home" },
-      { label: "Tech", href: "/categories/tech" },
-    ],
-  },
+  { title: "Help", links: HELP },
+  { title: "About", links: ABOUT },
+  { title: "Categories", links: CATEGORIES },
 ];
 
 export function Footer() {
@@ -69,8 +66,8 @@ export function Footer() {
             offers.
           </p>
           <form
-            action="/api/newsletter"
-            method="post"
+            action="/contact"
+            method="get"
             className="flex flex-col gap-2"
           >
             <label htmlFor="footer-email" className="sr-only">
@@ -78,7 +75,7 @@ export function Footer() {
             </label>
             <input
               id="footer-email"
-              name="email"
+              name="subject"
               type="email"
               required
               placeholder="you@example.com"
@@ -91,7 +88,10 @@ export function Footer() {
               Subscribe
             </button>
           </form>
-          <div className="mt-6 flex gap-3 text-sm">
+          <p className="mt-2 text-xs text-[#888]">
+            We&apos;ll add you to our product update list.
+          </p>
+          <div className="mt-4 flex gap-3 text-sm">
             <a
               href="https://instagram.com"
               target="_blank"

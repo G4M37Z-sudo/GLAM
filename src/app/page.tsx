@@ -1,6 +1,9 @@
+import Link from "next/link";
 import { HeroBanner } from "@/components/HeroBanner";
 import { ProductCard, type ProductCardProps } from "@/components/ProductCard";
 import { CategoryTile } from "@/components/CategoryTile";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerOnScroll } from "@/components/animations/StaggerOnScroll";
 import type { BadgeVariant } from "@/components/Badge";
 
 import { getFeaturedProducts, getAllCategories } from "@/lib/queries";
@@ -110,33 +113,35 @@ export default async function HomePage() {
         aria-labelledby="featured-heading"
         className="container-x py-12 sm:py-16"
       >
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <div>
-            <h2
-              id="featured-heading"
-              className="text-2xl font-bold text-fg sm:text-3xl"
+        <ScrollReveal>
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h2
+                id="featured-heading"
+                className="text-2xl font-bold text-fg sm:text-3xl"
+              >
+                Featured Today
+              </h2>
+              <p className="mt-1 text-sm text-text-muted">
+                Hand-picked drops from our top sellers.
+              </p>
+            </div>
+            <Link
+              href="/category/electronics"
+              className="text-sm font-medium text-accent hover:underline"
             >
-              Featured Today
-            </h2>
-            <p className="mt-1 text-sm text-text-muted">
-              Hand-picked drops from our top sellers.
-            </p>
+              Shop all →
+            </Link>
           </div>
-          <a
-            href="/featured"
-            className="text-sm font-medium text-accent hover:underline"
-          >
-            See all →
-          </a>
-        </div>
+        </ScrollReveal>
         {featured.length === 0 ? (
           <EmptyState message="No featured products yet — wire up Supabase and run the seed to populate the catalog." />
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <StaggerOnScroll className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {featured.map((p) => (
               <ProductCard key={p.id} product={toCardProduct(p)} />
             ))}
-          </div>
+          </StaggerOnScroll>
         )}
       </section>
 
@@ -146,20 +151,22 @@ export default async function HomePage() {
         className="bg-surface py-12 sm:py-16"
       >
         <div className="container-x">
-          <h2
-            id="categories-heading"
-            className="mb-6 text-2xl font-bold text-fg sm:text-3xl"
-          >
-            Shop by Category
-          </h2>
+          <ScrollReveal>
+            <h2
+              id="categories-heading"
+              className="mb-6 text-2xl font-bold text-fg sm:text-3xl"
+            >
+              Shop by Category
+            </h2>
+          </ScrollReveal>
           {categories.length === 0 ? (
             <EmptyState message="No categories yet — Supabase not connected or seed not run." />
           ) : (
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6 sm:gap-6">
+            <StaggerOnScroll className="grid grid-cols-3 gap-3 sm:grid-cols-6 sm:gap-6">
               {categories.map((c) => (
                 <CategoryTile key={c.id} {...toCategoryTile(c)} />
               ))}
-            </div>
+            </StaggerOnScroll>
           )}
         </div>
       </section>
@@ -169,33 +176,35 @@ export default async function HomePage() {
         aria-labelledby="trending-heading"
         className="container-x py-12 sm:py-16"
       >
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <div>
-            <h2
-              id="trending-heading"
-              className="text-2xl font-bold text-fg sm:text-3xl"
+        <ScrollReveal>
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <div>
+              <h2
+                id="trending-heading"
+                className="text-2xl font-bold text-fg sm:text-3xl"
+              >
+                Trending Now
+              </h2>
+              <p className="mt-1 text-sm text-text-muted">
+                What everyone&apos;s adding to cart this week.
+              </p>
+            </div>
+            <Link
+              href="/category/gadgets"
+              className="text-sm font-medium text-accent hover:underline"
             >
-              Trending Now
-            </h2>
-            <p className="mt-1 text-sm text-text-muted">
-              What everyone&apos;s adding to cart this week.
-            </p>
+              Shop all →
+            </Link>
           </div>
-          <a
-            href="/trending"
-            className="text-sm font-medium text-accent hover:underline"
-          >
-            See all →
-          </a>
-        </div>
+        </ScrollReveal>
         {trending.length === 0 ? (
           <EmptyState message="More products will appear here once the catalog grows." />
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <StaggerOnScroll className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {trending.map((p) => (
               <ProductCard key={p.id} product={toCardProduct(p)} />
             ))}
-          </div>
+          </StaggerOnScroll>
         )}
       </section>
     </>

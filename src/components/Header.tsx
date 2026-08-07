@@ -7,13 +7,12 @@ import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 const NAV = [
-  { label: "Women", href: "/categories/women" },
-  { label: "Men", href: "/categories/men" },
-  { label: "Kids", href: "/categories/kids" },
-  { label: "Beauty", href: "/categories/beauty" },
-  { label: "Home", href: "/categories/home" },
-  { label: "Tech", href: "/categories/tech" },
-  { label: "Sale", href: "/sale" },
+  { label: "Electronics", href: "/category/electronics" },
+  { label: "Home & Garden", href: "/category/home-garden" },
+  { label: "Fashion", href: "/category/fashion-accessories" },
+  { label: "Beauty", href: "/category/beauty-personal-care" },
+  { label: "Sports", href: "/category/sports-outdoors" },
+  { label: "Gadgets", href: "/category/gadgets" },
 ];
 
 /**
@@ -91,14 +90,14 @@ export function Header() {
 
           {/* Right actions */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <button
-              type="button"
+            <Link
+              href="/account"
               aria-label="Account"
               className="hidden h-10 items-center gap-1 rounded-md px-2 text-sm text-fg hover:bg-surface sm:inline-flex"
             >
               <User size={20} />
               <span className="hidden md:inline">Account</span>
-            </button>
+            </Link>
 
             <button
               type="button"
