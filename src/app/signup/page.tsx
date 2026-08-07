@@ -1,19 +1,19 @@
-// src/app/login/page.tsx
-// Email + password sign-in. Server Component shell that renders the form
+// src/app/signup/page.tsx
+// Email + password sign-up. Server Component shell that renders the form
 // (a client component for the in-flight state).
 
 import Link from "next/link";
-import { Lock } from "lucide-react";
-import { LoginForm } from "./LoginForm";
+import { UserPlus } from "lucide-react";
+import { SignupForm } from "./SignupForm";
 
 export const dynamic = "force-dynamic";
 
 export const metadata = {
-  title: "Sign in",
-  description: "Sign in to GLAM with your email and password.",
+  title: "Create your account",
+  description: "Sign up for GLAM with your email and password.",
 };
 
-export default async function LoginPage({
+export default async function SignupPage({
   searchParams,
 }: {
   searchParams: Promise<{ next?: string; error?: string }>;
@@ -25,31 +25,20 @@ export default async function LoginPage({
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 grid h-14 w-14 place-items-center rounded-full bg-accent/10 text-accent">
-            <Lock size={26} />
+            <UserPlus size={26} />
           </div>
           <h1 className="mb-2 text-2xl font-black text-fg sm:text-3xl">
-            Sign in to GLAM
+            Create your GLAM account
           </h1>
           <p className="text-sm text-text-muted">
-            Enter your email and password to access your account.
+            Sign up in seconds. We&apos;ll send a confirmation link to verify
+            your email.
           </p>
         </div>
 
         <div className="rounded-2xl border border-border bg-bg p-6 sm:p-8">
-          <LoginForm next={next ?? "/"} initialError={error} />
+          <SignupForm next={next ?? "/"} initialError={error} />
         </div>
-
-        <p className="mt-6 text-center text-xs text-text-muted">
-          By signing in, you agree to our{" "}
-          <Link href="/terms" className="underline hover:text-fg">
-            Terms
-          </Link>{" "}
-          and{" "}
-          <Link href="/privacy" className="underline hover:text-fg">
-            Privacy Policy
-          </Link>
-          .
-        </p>
       </div>
     </main>
   );

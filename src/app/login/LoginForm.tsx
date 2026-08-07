@@ -1,12 +1,14 @@
 "use client";
 
 // src/app/login/LoginForm.tsx
-// Email + magic-link form. Calls the server action and shows the
-// "check your inbox" confirmation when the email is sent.
+// Email + password sign-in. Calls the signInWithPassword server action.
+// On success, navigates to the post-login redirect (onboarding or ?next=).
 
 import { useState, useTransition } from "react";
-import { signInWithEmail } from "@/lib/supabase/actions";
-import { Mail, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Mail, Lock, AlertCircle, Loader2, ArrowRight } from "lucide-react";
+import { signInWithPassword } from "@/lib/supabase/actions";
 
 interface LoginFormProps {
   next: string;
@@ -14,54 +16,30 @@ interface LoginFormProps {
 }
 
 const ERROR_MESSAGES: Record<string, string> = {
-  missing_code: "The link looks incomplete. Please request a new one.",
+  missing_code: "The confirmation link looks incomplete. Please request a new one.",
   exchange_failed: "We couldn't sign you in. Please try again.",
+  session_expired: "Your session expired. Please sign in again.",
 };
 
 export function LoginForm({ next, initialError }: LoginFormProps) {
+  const router = useRouter();
   const [pending, startTransition] = useTransition();
-  const [sentTo, setSentTo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(
-    initialError ? ERROR_MESSAGES[initialError] ?? "Something went wrong." : null
+    initialError ? ERROR_MESSAGES[initialError] ?? "Something went wrong." : null,
   );
 
   function onSubmit(formData: FormData) {
     setError(null);
     startTransition(async () => {
-      const res = await signInWithEmail(formData);
+      const res = await signInWithPassword(formData);
       if (res.error) {
         setError(res.error);
-      } else if (res.ok) {
-        setSentTo(res.email);
+        return;
       }
+      // Redirect to the protected page (or onboarding) via a hard nav so
+      // server components re-fetch with the new session cookie.
+      window.location.href = res.redirectTo || next;
     });
-  }
-
-  if (sentTo) {
-    return (
-      <div className="text-center">
-        <CheckCircle2
-          className="mx-auto mb-4 text-success"
-          size={48}
-        />
-        <h2 className="mb-2 text-lg font-bold text-fg">Check your inbox</h2>
-        <p className="mb-1 text-sm text-text-muted">
-          We sent a sign-in link to:
-        </p>
-        <p className="mb-4 font-mono text-sm text-fg">{sentTo}</p>
-        <p className="text-xs text-text-muted">
-          Click the link in the email to finish signing in. You can close this
-          tab.
-        </p>
-        <button
-          type="button"
-          onClick={() => setSentTo(null)}
-          className="mt-6 text-xs font-medium text-accent hover:underline"
-        >
-          Use a different email
-        </button>
-      </div>
-    );
   }
 
   return (
@@ -90,6 +68,30 @@ export function LoginForm({ next, initialError }: LoginFormProps) {
         </div>
       </div>
 
+      <div>
+        <label
+          htmlFor="password"
+          className="mb-1.5 block text-sm font-medium text-fg"
+        >
+          Password
+        </label>
+        <div className="relative">
+          <Lock
+            size={16}
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
+          />
+          <input
+            id="password"
+            name="password"
+            type="password"
+            required
+            autoComplete="current-password"
+            placeholder="Your password"
+            className="h-11 w-full rounded-md border border-border bg-bg pl-10 pr-3 text-sm text-fg placeholder:text-text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30"
+          />
+        </div>
+      </div>
+
       <input type="hidden" name="next" value={next} />
 
       {error && (
@@ -102,17 +104,30 @@ export function LoginForm({ next, initialError }: LoginFormProps) {
       <button
         type="submit"
         disabled={pending}
-        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:opacity-60"
+        className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-md bg-accent px-4 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
       >
         {pending ? (
           <>
             <Loader2 size={16} className="animate-spin" />
-            Sending link…
+            Signing in…
           </>
         ) : (
-          "Send magic link"
+          <>
+            Sign in
+            <ArrowRight size={16} />
+          </>
         )}
       </button>
+
+      <p className="text-center text-sm text-text-muted">
+        New here?{" "}
+        <Link
+          href={`/signup?next=${encodeURIComponent(next)}`}
+          className="font-semibold text-accent hover:underline"
+        >
+          Create an account
+        </Link>
+      </p>
     </form>
   );
 }

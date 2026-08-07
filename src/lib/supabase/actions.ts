@@ -12,17 +12,25 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 // ---------------------------------------------------------------------------
-// signInWithEmail
-// Sends a magic-link email to the address. If the user is new, a profile
-// row is created with onboarding_step = 1 (so they land on the wizard).
+// signUpWithPassword
+// Creates a new user with email + password. Sends a confirmation email;
+// user clicks the link in the email to verify, then can sign in.
 // ---------------------------------------------------------------------------
 
-export async function signInWithEmail(formData: FormData) {
+export async function signUpWithPassword(formData: FormData) {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  const displayName = String(formData.get("displayName") ?? "").trim();
   const next = String(formData.get("next") ?? "/");
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { error: "Please enter a valid email address." };
+  }
+  if (password.length < 8) {
+    return { error: "Password must be at least 8 characters." };
+  }
+  if (displayName.length === 0) {
+    return { error: "Please enter a display name." };
   }
 
   const supabase = await createClient();
@@ -30,20 +38,73 @@ export async function signInWithEmail(formData: FormData) {
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ??
     "http://localhost:3000";
 
-  const { error } = await supabase.auth.signInWithOtp({
+  const { data, error } = await supabase.auth.signUp({
     email,
+    password,
     options: {
       emailRedirectTo: `${siteUrl}/auth/callback?next=${encodeURIComponent(next)}`,
-      shouldCreateUser: true,
+      data: {
+        display_name: displayName,
+      },
     },
   });
 
   if (error) {
-    console.error("signInWithEmail failed:", error);
-    return { error: "We couldn't send the link. Please try again." };
+    console.error("signUpWithPassword failed:", error);
+    if (error.message.toLowerCase().includes("already registered")) {
+      return { error: "An account with this email already exists. Try signing in." };
+    }
+    return { error: error.message || "We couldn't create your account. Please try again." };
+  }
+
+  // Supabase returns a user with identities=[] if the email is already taken
+  // (this is the recommended way to detect "fake success" without leaking which emails exist).
+  if (data?.user && data.user.identities && data.user.identities.length === 0) {
+    return { error: "An account with this email already exists. Try signing in." };
   }
 
   return { ok: true, email };
+}
+
+// ---------------------------------------------------------------------------
+// signInWithPassword
+// Signs in an existing user. Email must be verified first; the trigger
+// handle_new_user ensures a profile row exists.
+// ---------------------------------------------------------------------------
+
+export async function signInWithPassword(formData: FormData) {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const password = String(formData.get("password") ?? "");
+  const next = String(formData.get("next") ?? "/");
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: "Please enter a valid email address." };
+  }
+  if (password.length === 0) {
+    return { error: "Please enter your password." };
+  }
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+
+  if (error) {
+    console.error("signInWithPassword failed:", error);
+    if (error.message.toLowerCase().includes("email not confirmed")) {
+      return {
+        error:
+          "Please verify your email first — check your inbox for the confirmation link.",
+      };
+    }
+    if (error.message.toLowerCase().includes("invalid login")) {
+      return { error: "Wrong email or password." };
+    }
+    return { error: "We couldn't sign you in. Please try again." };
+  }
+
+  return { ok: true, redirectTo: next };
 }
 
 // ---------------------------------------------------------------------------
