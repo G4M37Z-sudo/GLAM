@@ -67,7 +67,7 @@ export async function getFeaturedProducts(
     return [];
   }
 
-  return (data ?? []).map((row) => normaliseProduct(row)!) as ProductWithImages[];
+  return (data ?? []).map((row: JoinedProductRow) => normaliseProduct(row)!) as ProductWithImages[];
 }
 
 // ----------------------------------------------------------------------------
@@ -120,7 +120,7 @@ export async function getProductsByCategory(
   }
 
   return {
-    items: (data ?? []).map((row) => normaliseProduct(row)!) as ProductWithImages[],
+    items: (data ?? []).map((row: JoinedProductRow) => normaliseProduct(row)!) as ProductWithImages[],
     total: count ?? 0,
   };
 }

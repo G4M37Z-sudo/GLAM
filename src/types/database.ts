@@ -31,6 +31,19 @@ export interface Profile {
   id: string;
   full_name: string | null;
   role: UserRole;
+  display_name: string | null;
+  preferred_categories: string[] | null;
+  marketing_opt_in: boolean;
+  /**
+   * Onboarding progress:
+   *   1 = welcome / starting
+   *   2 = pick categories
+   *   3 = display name + email prefs
+   *   4 = confirmation
+   *   999 = complete (or skipped)
+   */
+  onboarding_step: number;
+  onboarding_completed_at: string | null;
   created_at: string;
   updated_at: string;
 }

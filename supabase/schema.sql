@@ -1,6 +1,6 @@
 -- ============================================================================
--- online-store — Supabase schema
--- Alibaba-hybrid (B2B tiered pricing) + Shein visuals (B2C retail)
+-- GLAM — Supabase schema (v1)
+-- Alibaba-hybrid (B2B tiered pricing) + Shein visuals (B2C retail).
 -- Run in Supabase SQL Editor in ONE shot.
 -- ============================================================================
 

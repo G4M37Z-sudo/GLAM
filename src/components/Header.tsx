@@ -1,11 +1,15 @@
-"use client";
+// src/components/Header.tsx
+// Site header — Server Component that renders Logo, navigation, search,
+// CartButton (client), and UserMenu (server). Client-only bits live
+// in their own sub-components.
 
 import Link from "next/link";
-import { ShoppingBag, User, Search, Menu } from "lucide-react";
-import { useCartStore } from "@/lib/cart-store";
-import { cn } from "@/lib/utils";
+import { Search } from "lucide-react";
 import { Logo } from "@/components/Logo";
-import { useEffect, useState } from "react";
+import { CartButton } from "@/components/CartButton";
+import { UserMenu } from "@/components/UserMenu";
+import { MobileMenuButton } from "@/components/MobileMenuButton";
+import { ScrolledHeader } from "@/components/ScrolledHeader";
 
 const NAV = [
   { label: "Electronics", href: "/category/electronics" },
@@ -16,51 +20,21 @@ const NAV = [
   { label: "Gadgets", href: "/category/gadgets" },
 ];
 
-/**
- * Sticky site header. Subscribes to the cart count from the
- * Zustand store so the badge updates on any add/remove.
- */
 export function Header() {
-  // Selector keeps this component from re-rendering on every
-  // unrelated cart change (e.g. qty edits we don't care about).
-  const count = useCartStore((s) => s.getCount());
-  const openCart = useCartStore((s) => s.openCart);
-  const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-40 w-full bg-bg transition-shadow",
-        scrolled && "shadow-[0_2px_8px_rgba(0,0,0,0.06)]"
-      )}
-    >
+    <ScrolledHeader>
       {/* Row 1: logo / search / actions */}
-      <div className="border-b border-border">
+      <div className="relative border-b border-border">
         <div className="container-x flex h-16 items-center gap-3 sm:gap-6">
           {/* Mobile menu toggle */}
-          <button
-            type="button"
-            aria-label="Open menu"
-            className="grid h-10 w-10 place-items-center rounded-md text-fg hover:bg-surface lg:hidden"
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            <Menu size={22} />
-          </button>
+          <MobileMenuButton />
 
           {/* Logo */}
           <Link href="/" className="shrink-0">
             <Logo height={32} ariaLabel="GLAM — home" />
           </Link>
 
-          {/* Search */}
+          {/* Search (desktop) */}
           <form
             role="search"
             action="/search"
@@ -82,33 +56,13 @@ export function Header() {
             </div>
           </form>
 
-          {/* Spacer on mobile so icons hug the right */}
+          {/* Spacer on mobile */}
           <div className="flex-1 lg:hidden" />
 
           {/* Right actions */}
           <div className="flex items-center gap-1 sm:gap-2">
-            <Link
-              href="/account"
-              aria-label="Account"
-              className="hidden h-10 items-center gap-1 rounded-md px-2 text-sm text-fg hover:bg-surface sm:inline-flex"
-            >
-              <User size={20} />
-              <span className="hidden md:inline">Account</span>
-            </Link>
-
-            <button
-              type="button"
-              aria-label={`Open cart, ${count} item${count === 1 ? "" : "s"}`}
-              onClick={openCart}
-              className="relative grid h-10 w-10 place-items-center rounded-md text-fg hover:bg-surface"
-            >
-              <ShoppingBag size={22} />
-              {count > 0 && (
-                <span className="absolute -right-1 -top-1 grid min-h-[18px] min-w-[18px] place-items-center rounded-full bg-accent px-1 text-[10px] font-bold leading-none text-white">
-                  {count > 99 ? "99+" : count}
-                </span>
-              )}
-            </button>
+            <UserMenu />
+            <CartButton />
           </div>
         </div>
 
@@ -142,37 +96,13 @@ export function Header() {
             <Link
               key={n.label}
               href={n.href}
-              className={cn(
-                "whitespace-nowrap py-1 transition-colors hover:text-accent",
-                n.label === "Sale" && "text-accent font-semibold"
-              )}
+              className="whitespace-nowrap py-1 transition-colors hover:text-accent"
             >
               {n.label}
             </Link>
           ))}
         </div>
       </nav>
-
-      {/* Mobile nav drawer (collapsing) */}
-      {mobileOpen && (
-        <nav
-          aria-label="Categories (mobile)"
-          className="border-b border-border bg-bg lg:hidden"
-        >
-          <div className="container-x flex flex-col py-2 text-sm font-medium">
-            {NAV.map((n) => (
-              <Link
-                key={n.label}
-                href={n.href}
-                onClick={() => setMobileOpen(false)}
-                className="border-b border-border py-3 last:border-0 hover:text-accent"
-              >
-                {n.label}
-              </Link>
-            ))}
-          </div>
-        </nav>
-      )}
-    </header>
+    </ScrolledHeader>
   );
 }

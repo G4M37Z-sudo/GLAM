@@ -17,8 +17,13 @@ Step-by-step deploy walkthrough for the Online Store (Next.js + Supabase + Strip
    - Click **Run** (or press `Ctrl+Enter`). Every table, index, RLS policy, and helper function will be created.
 5. Again in **SQL Editor** → **New query**, paste the full contents of `supabase/seed.sql`.
    - Click **Run**. This populates categories, products, images, and tier pricing.
-6. Open **Project Settings → API** (gear icon in the sidebar).
-7. Copy three values — you'll need them in section 3:
+6. (Optional, for onboarding) Paste and run `supabase/schema_v2.sql` — this adds the
+   onboarding columns to `profiles` (display_name, preferred_categories,
+   marketing_opt_in, onboarding_step) plus the `handle_new_user` trigger that
+   auto-creates a profile row when a user signs up. Required only if you want
+   the magic-link sign-in + onboarding wizard to work end-to-end.
+7. Open **Project Settings → API** (gear icon in the sidebar).
+8. Copy three values — you'll need them in section 3:
    - **Project URL** → `NEXT_PUBLIC_SUPABASE_URL`
    - **Project API keys → `anon` `public`** → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - **Project API keys → `service_role`** → `SUPABASE_SERVICE_ROLE_KEY` (treat this like a password)

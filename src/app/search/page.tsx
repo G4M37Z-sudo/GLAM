@@ -72,7 +72,28 @@ async function searchProducts(
     console.error("searchProducts failed:", error.message);
     return [];
   }
-  return (data ?? []).map((row) => ({
+  return (data ?? []).map((row: {
+    id: string;
+    slug: string;
+    title: string;
+    description: string;
+    specifications: Record<string, unknown>;
+    category_id: string | null;
+    base_price_cents: number;
+    retail_price_cents: number;
+    currency: string;
+    moq: number;
+    stock: number;
+    rating_avg: number;
+    rating_count: number;
+    is_featured: boolean;
+    is_active: boolean;
+    created_at: string;
+    updated_at: string;
+    images?: { id: string; url: string; is_cover: boolean }[];
+    tiers?: { min_qty: number; unit_price_cents: number }[];
+    category?: { slug: string; name: string } | null;
+  }) => ({
     ...row,
     images: Array.isArray(row.images) ? row.images : [],
     tiers: Array.isArray(row.tiers) ? row.tiers : [],

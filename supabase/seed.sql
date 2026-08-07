@@ -1,7 +1,7 @@
 -- ============================================================================
--- online-store — seed data
--- 6 categories × 5 products = 30 products
--- Idempotent: ON CONFLICT DO NOTHING everywhere
+-- GLAM — seed data (v1)
+-- 6 categories × 5 products = 30 products.
+-- Idempotent: ON CONFLICT DO NOTHING everywhere.
 -- Image URLs use picsum.photos with the slug as seed for stable variety.
 -- ============================================================================
 
