@@ -1,0 +1,62 @@
+# ============================================================================
+# netlify.toml — GLAM Online Store
+# Netlify deployment config for the Next.js 16.3 app.
+# Docs: https://docs.netlify.com/build/configure-builds/file-based-configuration/
+# ============================================================================
+
+# Next.js runtime — Netlify uses the official Next.js plugin to enable
+# SSR, ISR, image optimization, and middleware/proxy.ts support.
+# If Netlify's plugin doesn't yet support Next 16.3, see the fallback in
+# SETUP.md — pin Next to 15.x in a separate branch.
+[[plugins]]
+  id = "@netlify/plugin-nextjs"
+
+# Build settings
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Node version — Next.js 16 requires Node 20.9+
+[build.environment]
+  NODE_VERSION = "20.18.1"
+  NPM_FLAGS = "--no-audit --no-fund"
+
+# Security headers — applied to every response.
+# HSTS, X-Content-Type-Options, X-Frame-Options, Referrer-Policy.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Cache static assets aggressively (1 year) — they're fingerprinted by Next.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Cache images served by Next.js's built-in /_next/image for 1 day.
+[[headers]]
+  for = "/_next/image"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# Service Worker from Next.js — never cache.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+# Plain redirects (status 301). Add site-specific ones here when you have them.
+# Example:
+# [[redirects]]
+#   from = "/old-path"
+#   to = "/new-path"
+#   status = 301
+
+# Supabase magic-link auth: the /auth/callback route reads ?code= from the URL
+# and exchanges it for a session cookie. Make sure Netlify doesn't strip
+# the query string. (Netlify preserves query strings by default for non-redirect
+# paths — this is just documentation of the assumption.)

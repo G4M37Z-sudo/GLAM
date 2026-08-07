@@ -4,6 +4,63 @@ Step-by-step deploy walkthrough for the Online Store (Next.js + Supabase + Strip
 
 ---
 
+
+
+---
+
+# Alternative: deploy to Netlify instead of Vercel
+
+The repo includes a `netlify.toml` config so you can use Netlify if you prefer.
+
+**One important caveat:** Next.js 16.3 (which this repo uses) is very new.
+Netlify's official `@netlify/plugin-nextjs` may not yet fully support it.
+If your first Netlify build fails with errors mentioning Next 16 or
+the proxy/middleware system, use the **fallback branch strategy** below.
+
+## Netlify deploy (option A — try as-is first)
+
+1. Sign in at [netlify.com](https://netlify.com) (Continue with GitHub).
+2. Click **Add new site → Import an existing project**.
+3. Pick the `G4M37Z-sudo/GLAM` repo.
+4. Netlify auto-detects the build command from `netlify.toml`:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `.next`
+   - **Plugin:** `@netlify/plugin-nextjs` (from netlify.toml)
+5. **Environment variables** — set the same 7 keys as Vercel (§5 above).
+6. Click **Deploy site**.
+
+## Fallback if Next 16 isn't supported yet (option B)
+
+1. Create a `netlify-deploy` branch:
+   ```bash
+   git checkout -b netlify-deploy
+   ```
+2. Downgrade Next to 15.x (the last LTS that Netlify's plugin is guaranteed to handle):
+   ```bash
+   npm install next@15 react@18 react-dom@18
+   ```
+3. **Verify the app still builds** (Next 16 → 15 is a breaking change — you'll need to update `proxy.ts` → `middleware.ts`, un-await params, etc.):
+   ```bash
+   npm run build
+   ```
+4. If the build passes, push the branch:
+   ```bash
+   git add -A && git commit -m "chore: downgrade to next 15 for netlify compatibility"
+   git push origin netlify-deploy
+   ```
+5. In Netlify, point the deploy at the `netlify-deploy` branch instead of `main`.
+
+## After Netlify deploy
+
+1. Update `NEXT_PUBLIC_SITE_URL` to the Netlify URL (`.netlify.app` or your custom domain).
+2. **Supabase → Authentication → URL Configuration** — add the Netlify URL to the Redirect URLs whitelist:
+   ```
+   https://your-site.netlify.app/auth/callback
+   ```
+3. **Stripe** (if you set up checkout) — update the webhook endpoint to the Netlify URL.
+
+---
+
 ## 1. Supabase
 
 1. Sign up / sign in at [supabase.com](https://supabase.com).
@@ -98,45 +155,45 @@ The repo at [`github.com/G4M37Z-sudo/GLAM`](https://github.com/G4M37Z-sudo/GLAM)
 
 ---
 
-## 5. Deploy to Vercel
+## 5. Deploy to Netlify
 
-1. Sign in at [vercel.com](https://vercel.com) (use **Continue with GitHub**).
-2. Click **Add New… → Project**.
-3. **Import** the `G4M37Z-sudo/GLAM` repo.
-4. Vercel auto-detects the framework as **Next.js**. Leave the defaults:
-   - **Root Directory:** `./`
-   - **Build Command:** `next build` (auto)
-   - **Output Directory:** `.next` (auto)
-5. **Environment variables** — open the **Environment Variables** section and add each of these for the **Production** environment (and **Preview** if you want previews to work):
+1. Sign in at [netlify.com](https://netlify.com) (use **Sign up with GitHub**).
+2. From the dashboard, click **Add new site → Import an existing project → GitHub**.
+3. Authorize the `G4M37Z-sudo/GLAM` repo.
+4. Netlify auto-detects Next.js. Confirm the build settings:
+   - **Base directory:** *(leave empty)*
+   - **Build command:** `npm run build` (from `netlify.toml`)
+   - **Publish directory:** `.next` (from `netlify.toml`)
+5. **Environment variables** — open the **Environment variables** section and add each of these for the **Production** environment:
    | Name | Value |
    | --- | --- |
+   | `NEXT_PUBLIC_SITE_URL` | `https://glam-ten-pearl.netlify.app` (you'll update this to the real Netlify URL after the first deploy) |
    | `NEXT_PUBLIC_SUPABASE_URL` | from §1 |
    | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | from §1 |
    | `SUPABASE_SERVICE_ROLE_KEY` | from §1 |
    | `STRIPE_SECRET_KEY` | from §2 (test key for now) |
-   | `STRIPE_WEBHOOK_SECRET` | from §2 step 6 (local `whsec_…`) — you'll update it after the first deploy |
+   | `STRIPE_WEBHOOK_SECRET` | from §2 step 6 (local `whsec_…`) — update after the first deploy |
    | `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | from §2 |
-   | `NEXT_PUBLIC_SITE_URL` | `https://glam-ten-pearl.vercel.app` (this project's Vercel URL) |
-6. Click **Deploy**. The first build runs `npm run build` on Vercel's servers (~1–2 min).
-7. When the deploy finishes, you'll get a URL like `https://glam-ten-pearl.vercel.app`. (Deployment Protection may require you to sign in to Vercel first to view it.)
+6. Click **Deploy**. The first build runs `npm run build` on Netlify (~1–2 min).
+7. When the deploy finishes, you'll get a URL like `https://glam-ten-pearl.netlify.app`. The Next.js plugin will auto-detect the app router and wire the serverless functions.
 
 ---
 
 ## 6. After the first deploy
 
-Now you know the real Vercel URL — go wire it back into the system.
+Now you know the real Netlify URL — go wire it back into the system.
 
-1. In the Vercel dashboard, open your project → **Settings → Environment Variables**.
-2. `NEXT_PUBLIC_SITE_URL` should already be set to your Vercel URL from §5. If you need to change it, update it here.
-3. **Trigger a redeploy** — Deployments → latest → **⋯ → Redeploy** (the env var change requires a rebuild).
+1. In Netlify, open your site → **Site settings → Environment variables**.
+2. Update `NEXT_PUBLIC_SITE_URL` to the actual Netlify URL (e.g. `https://glam-ten-pearl.netlify.app`).
+3. **Trigger a redeploy** — Deploys → latest → **Trigger deploy → Clear cache and deploy**.
 4. In **Supabase → Authentication → URL Configuration**:
-   - **Site URL:** `https://glam-ten-pearl.vercel.app`
-   - **Redirect URLs:** add `https://glam-ten-pearl.vercel.app/auth/callback` (and `http://localhost:3000/auth/callback` if you want local dev too)
+   - **Site URL:** `https://glam-ten-pearl.netlify.app`
+   - **Redirect URLs:** `https://glam-ten-pearl.netlify.app/auth/callback`
 5. In the Stripe dashboard, **Developers → Webhooks → Add endpoint**:
-   - **Endpoint URL:** `https://glam-ten-pearl.vercel.app/api/stripe-webhook`
+   - **Endpoint URL:** `https://glam-ten-pearl.netlify.app/api/stripe-webhook`
    - **Events:** `checkout.session.completed`
    - Copy the new **Signing secret** (`whsec_...`).
-6. Back in Vercel, update `STRIPE_WEBHOOK_SECRET` to that new production value, then **redeploy again**.
+6. Back in Netlify, update `STRIPE_WEBHOOK_SECRET` to that new production value, then **redeploy again**.
 
 ---
 
