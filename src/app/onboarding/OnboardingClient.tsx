@@ -58,6 +58,7 @@ export function OnboardingClient({ profile, categories }: OnboardingClientProps)
   const [marketingOptIn, setMarketingOptIn] = useState<boolean>(
     profile.marketing_opt_in
   );
+  const [termsAccepted, setTermsAccepted] = useState<boolean>(false);
 
   function goToStep(next: number, formData?: FormData) {
     setError(null);
@@ -71,6 +72,7 @@ export function OnboardingClient({ profile, categories }: OnboardingClientProps)
       if (step === 3 && formData) {
         payload.displayName = String(formData.get("displayName") ?? "");
         payload.marketingOptIn = formData.get("marketingOptIn") === "on";
+        payload.termsAccepted = termsAccepted;
       }
       const res = await saveOnboardingStep(payload);
       if (res.error) {
@@ -174,6 +176,8 @@ export function OnboardingClient({ profile, categories }: OnboardingClientProps)
             setDisplayName={setDisplayName}
             marketingOptIn={marketingOptIn}
             setMarketingOptIn={setMarketingOptIn}
+            termsAccepted={termsAccepted}
+            setTermsAccepted={setTermsAccepted}
             pending={pending}
             onBack={() => setStep(2)}
             onContinue={(fd) => goToStep(4, fd)}
@@ -407,6 +411,8 @@ function Step3Profile({
   setDisplayName,
   marketingOptIn,
   setMarketingOptIn,
+  termsAccepted,
+  setTermsAccepted,
   pending,
   onBack,
   onContinue,
@@ -416,6 +422,8 @@ function Step3Profile({
   setDisplayName: (v: string) => void;
   marketingOptIn: boolean;
   setMarketingOptIn: (v: boolean) => void;
+  termsAccepted: boolean;
+  setTermsAccepted: (v: boolean) => void;
   pending: boolean;
   onBack: () => void;
   onContinue: (fd: FormData) => void;
@@ -470,6 +478,45 @@ function Step3Profile({
         </label>
       </div>
 
+      <div className="mb-6">
+        <label className="flex items-start gap-3 rounded-lg border border-border bg-surface p-4">
+          <input
+            type="checkbox"
+            name="termsAccepted"
+            checked={termsAccepted}
+            onChange={(e) => setTermsAccepted(e.target.checked)}
+            required
+            aria-required="true"
+            className="mt-1 h-4 w-4 rounded border-border text-accent focus:ring-accent"
+          />
+          <span>
+            <span className="text-sm font-medium text-fg">
+              I agree to the{" "}
+              <a
+                href="/terms"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent underline hover:no-underline"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent underline hover:no-underline"
+              >
+                Privacy Policy
+              </a>
+            </span>
+            <span className="mt-0.5 block text-xs text-text-muted">
+              Required to finish setting up your account.
+            </span>
+          </span>
+        </label>
+      </div>
+
       <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <button
           type="button"
@@ -491,8 +538,8 @@ function Step3Profile({
           </button>
           <button
             type="submit"
-            disabled={pending}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:opacity-60"
+            disabled={pending || !termsAccepted}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover disabled:cursor-not-allowed disabled:opacity-60"
           >
             Continue
             <ArrowRight size={16} />

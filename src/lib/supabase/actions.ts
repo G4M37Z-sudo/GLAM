@@ -74,6 +74,8 @@ interface StepInput {
   // Step 3 — profile + prefs
   displayName?: string;
   marketingOptIn?: boolean;
+  // Step 3 — terms acceptance (required to leave onboarding)
+  termsAccepted?: boolean;
 }
 
 export async function saveOnboardingStep(input: StepInput) {
@@ -108,6 +110,9 @@ export async function saveOnboardingStep(input: StepInput) {
     }
     if (typeof input.marketingOptIn === "boolean") {
       patch.marketing_opt_in = input.marketingOptIn;
+    }
+    if (input.termsAccepted === true) {
+      patch.terms_accepted_at = new Date().toISOString();
     }
   }
 
